@@ -1,16 +1,15 @@
-FROM python:3.11-slim
+FROM registry.access.redhat.com/ubi9/ubi-minimal:latest
 
-# Install sshpass for Ansible password authentication & openssl for cert generation
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    sshpass \
-    openssl \
-    && rm -rf /var/lib/apt/lists/*
+# Install EPEL (for sshpass) and required packages to enforce FIPS compatibility when running on FIPS host
+RUN rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm && \
+    microdnf install -y python3 python3-pip sshpass openssl && \
+    microdnf clean all
 
 WORKDIR /opt/controller
 
 # Copy requirements and install
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip3 install --no-cache-dir -r requirements.txt
 
 # Create necessary directories
 RUN mkdir -p /playbooks /certs /opt/controller/app /opt/controller/scripts

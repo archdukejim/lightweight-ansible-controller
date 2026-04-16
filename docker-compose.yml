@@ -1,5 +1,3 @@
-
-
 services:
   controller:
     build: .
@@ -12,5 +10,18 @@ services:
       # Uncomment to mount custom certs instead of self-signed
       # - ./certs:/certs:ro
     environment:
-      # Set to 'true' to enable HTTP on 8080. 'false' enables HTTPS on 8443.
+      # Set to 'true' to enable HTTP on 8080 and bypass OIDC checks.
+      # Set to 'false' for production (enables HTTPS and requires sidecar auth headers)
       - DEV_MODE=true
+
+  # Example sidecar setup for OIDC (commented out by default)
+  # oidc-proxy:
+  #   image: quay.io/oauth2-proxy/oauth2-proxy:latest
+  #   ports:
+  #     - "443:4180"
+  #   environment:
+  #     OAUTH2_PROXY_UPSTREAMS: "http://controller:8080/"
+  #     OAUTH2_PROXY_HTTP_ADDRESS: "0.0.0.0:4180"
+  #     OAUTH2_PROXY_SET_XAUTHREQUEST: "true"
+  #     OAUTH2_PROXY_PASS_USER_HEADERS: "true"
+  #     # Add other proxy configs here: OAUTH2_PROXY_CLIENT_ID, OAUTH2_PROXY_CLIENT_SECRET, etc.
