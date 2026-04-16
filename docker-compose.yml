@@ -1,0 +1,16 @@
+
+
+services:
+  controller:
+    build: .
+    image: lightweight-ansible-controller:latest
+    ports:
+      - "8443:8443"
+      - "8080:8080"
+    volumes:
+      - ./playbooks:/playbooks:ro
+      # Uncomment to mount custom certs instead of self-signed
+      # - ./certs:/certs:ro
+    environment:
+      # Set to 'true' to enable HTTP on 8080. 'false' enables HTTPS on 8443.
+      - DEV_MODE=true

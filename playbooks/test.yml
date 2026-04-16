@@ -1,0 +1,10 @@
+---
+- name: Test Playbook
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Ping target
+      ping:
+    - name: Print variable
+      debug:
+        msg: "The custom variable is {{ custom_var | default('not set') }}"
