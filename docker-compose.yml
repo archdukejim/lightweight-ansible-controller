@@ -4,14 +4,16 @@ services:
     image: lightweight-ansible-controller:latest
     ports:
       - "8443:8443"
-      - "8080:8080"
     volumes:
       - ./playbooks:/playbooks:ro
+      - ./collections:/collections:ro
+      - ./inventory:/inventory:ro
+      - ./vault:/vault:ro
       # Uncomment to mount custom certs instead of self-signed
       # - ./certs:/certs:ro
     environment:
-      # Set to 'true' to enable HTTP on 8080 and bypass OIDC checks.
-      # Set to 'false' for production (enables HTTPS and requires sidecar auth headers)
+      # Set to 'true' to bypass OIDC checks (but still uses HTTPS 8443)
+      # Set to 'false' for production (requires sidecar auth headers)
       - DEV_MODE=true
 
   # Example sidecar setup for OIDC (commented out by default)

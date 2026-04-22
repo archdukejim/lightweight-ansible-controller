@@ -1,0 +1,12 @@
+---
+# Define any custom Ansible Galaxy collections or roles you need installed
+# during the docker build process.
+
+collections:
+#  - name: kubernetes.core
+#    version: 3.0.0
+#  - name: community.general
+
+roles:
+#  - name: geerlingguy.docker
+#  - name: geerlingguy.ntp
